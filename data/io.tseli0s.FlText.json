@@ -1,0 +1,64 @@
+{
+    "id": "io.tseli0s.FlText",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "23.08",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "fltext",
+    "separate-locales": false,
+    "finish-args": [
+        "--share=ipc",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--device=all",
+        "--filesystem=host"
+    ],
+    "modules": [
+        {
+            "name": "fltext",
+            "buildsystem": "simple",
+            "only-arches": [
+                "x86_64"
+            ],
+            "c": "(This is just a comment) The commands here suck, but no matter how much I try to fix them they don't work, so just ignore this part",
+            "build-commands": [
+                "mkdir -p /app/bin",
+                "mkdir -p /app/lib/",
+                "cp fltext /app/bin/fltext",
+                "cp -r data /app/bin/data",
+                "ls",
+                "cp *.so /app/lib",
+                "chmod +x /app/bin/fltext",
+                "install -Dm644 logo.png /app/share/icons/hicolor/512x512/apps/io.tseli0s.FlText.png",
+                "if [ $(arch) == \"aarch64\"  ]; then sed -si \"/Exec=/cExec=env GDK_GL=gles fltext %U\" io.tseli0s.FlText.desktop; fi",
+                "install -Dm644 io.tseli0s.FlText.desktop /app/share/applications/io.tseli0s.FlText.desktop",
+                "install -Dm644 io.tseli0s.FlText.metainfo.xml /app/share/appdata/io.tseli0s.FlText.metainfo.xml"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "path": "fltext"
+                },
+                {
+                    "type": "dir",
+                    "path": "data"
+                },
+                {
+                    "type": "dir",
+                    "path": "lib"
+                },
+                {
+                    "type": "file",
+                    "path": "io.tseli0s.FlText.metainfo.xml"
+                },
+                {
+                    "type": "file",
+                    "path": "io.tseli0s.FlText.desktop"
+                },
+                {
+                    "type": "file",
+                    "path": "logo.png"
+                }
+            ]
+        }
+    ]
+}

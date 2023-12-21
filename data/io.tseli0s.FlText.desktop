@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=FlText
+Icon=io.tseli0s.FlText
+Exec=fltext %U
+Categories=Utilities;Development;
+Keywords=Text;Editor;Edit;
+X-Purism-FormFactor=Workstation;Mobile;

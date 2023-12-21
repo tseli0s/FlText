@@ -1,0 +1,1 @@
+Flatpak support is still being worked on, please ignore this directory for now.
