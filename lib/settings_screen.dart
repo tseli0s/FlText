@@ -43,10 +43,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.colorize),
-            title: const Text("Color scheme"),
-            subtitle: const Text(
-              "Select the color scheme used by the application",
-            ),
+            title: Text(AppLocalizations.of(context)!.colorScheme),
+            subtitle: Text(AppLocalizations.of(context)!.selectColorSchemeUsed),
             onTap: () async {
               final result = await colorPickerDialog(context);
               if (result) {
@@ -62,7 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   action: SnackBarAction(
-                    label: "Close",
+                    label: AppLocalizations.of(context)!.close,
                     onPressed: () {},
                   ),
                 );
