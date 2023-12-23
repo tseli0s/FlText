@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 /*
  * FlText: A simple and nice-looking text editor.
  * Copyright (C) 2023 Aggelos Tselios
@@ -49,6 +51,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
               final result = await colorPickerDialog(context);
               if (result) {
                 saveConfigChanges();
+                /* TODO: Translations */
+                final snackBar = SnackBar(
+                  content: const Text(
+                    "You will have to restart the editor to see the new changes.",
+                  ),
+                  padding: const EdgeInsets.all(16.0),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  action: SnackBarAction(
+                    label: "Close",
+                    onPressed: () {},
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
             },
           ),
