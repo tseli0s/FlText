@@ -129,8 +129,11 @@ class _HomepageState extends State<Homepage> {
                 showAboutDialog(
                   applicationName: "FlText",
                   applicationVersion: "0.1.0",
-                  applicationIcon: const FlutterLogo(
-                    size: 32,
+                  applicationIcon: SizedBox.fromSize(
+                    size: const Size.square(48),
+                    child: const Image(
+                      image: AssetImage('assets/logo.png'),
+                    ),
                   ),
                   children: [
                     Text(AppLocalizations.of(context)!.fltextDesc),
@@ -153,7 +156,6 @@ class _HomepageState extends State<Homepage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const FlutterLogo(),
             TitleText(text: AppLocalizations.of(context)!.welcomeToFltext),
             Text(
               AppLocalizations.of(context)!.startByEither,
