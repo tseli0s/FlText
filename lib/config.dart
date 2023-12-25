@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 String recent_0 = "";
 String recent_1 = "";
 String recent_2 = "";
+bool useMonospace = true;
 bool firstLaunch = true;
 int accentColor = 0xFF0B95FF;
 
@@ -25,6 +26,7 @@ void loadConfig() async {
         'firstLaunch',
       ) ??
       true; // If the value doesn't exist, it's probably the first launch
+  useMonospace = config.getBool('useMonospace') ?? true;
   accentColor = config.getInt('accentColor') ?? accentColor;
 }
 
@@ -63,6 +65,7 @@ void saveConfigChanges() async {
 
   config.setInt('accentColor', accentColor);
   config.setBool('firstLaunch', false);
+  config.setBool('useMonospace', useMonospace);
   config.setString('recent_0', recent_0);
   config.setString('recent_1', recent_1);
   config.setString('recent_2', recent_2);
