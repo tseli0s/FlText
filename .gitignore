@@ -50,3 +50,6 @@ data/data
 data/lib
 data/fltext
 builddir
+
+# Other stuff to ignore
+# Usually just build files
