@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+
+Name=FlText
+GenericName=Text Editor
+Comment=A simple text editor
+Categories=Utility;
+
+Icon=fltext
+Exec=/usr/bin/fltext
+Terminal=false
+StartupWMClass=fltext
+StartupNotify=true
