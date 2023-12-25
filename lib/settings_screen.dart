@@ -37,9 +37,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.all(8.0),
         children: [
           ListTile(
+            leading: Checkbox(
+              value: useMonospace,
+              onChanged: (v) {
+                useMonospace = v!;
+                saveConfigChanges();
+                setState(() {});
+              },
+            ),
+            title: const Text("Use monospaced font"),
+            subtitle: const Text(
+              "Use the platform's monospaced font instead of the system font. May help with readability.",
+            ),
+          ),
+          /* TODO: Implement font selection. */
+          ListTile(
             leading: const Icon(Icons.font_download),
             title: Text(AppLocalizations.of(context)!.editorFont),
             subtitle: Text(AppLocalizations.of(context)!.editorFont_t),
+            onTap: () {
+              showErrorDialog(
+                context,
+                "Custom fonts aren't available yet.",
+                "Unfortunately, choosing a custom font to use from the device is not"
+                    "yet implemented and will not work. This functionality will be added in a future version.",
+              );
+            },
+            enabled: (useMonospace == false),
           ),
           ListTile(
             leading: const Icon(Icons.colorize),
