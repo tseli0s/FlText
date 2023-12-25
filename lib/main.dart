@@ -240,14 +240,7 @@ class _HomepageState extends State<Homepage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            CupertinoPageRoute(
-              builder: (context) {
-                return TextEditor(filename: null);
-              },
-            ),
-          );
+          openTextEditor(null);
         },
         tooltip: AppLocalizations.of(context)!.newFile,
         child: const Icon(Icons.file_open),
@@ -263,7 +256,8 @@ class _HomepageState extends State<Homepage> {
      * Basically this creates a file before editing so that no "save file"
      * dialog is ever needed.
      */
-    if (Platform.isAndroid || Platform.isFuchsia || kIsWeb) {
+    if ((Platform.isAndroid || Platform.isFuchsia || kIsWeb) &&
+        filename == null) {
       final result = await TextInputDialog.showTextInputDialog(
         context,
         informatoryText: AppLocalizations.of(context)!.pleaseEnterFilename,
