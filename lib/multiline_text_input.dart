@@ -7,6 +7,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  */
+import 'package:fltext/config.dart';
 import 'package:flutter/material.dart';
 
 class MultilineTextInputWidget extends StatefulWidget {
@@ -33,7 +34,7 @@ class _MultilineTextInputWidgetState extends State<MultilineTextInputWidget> {
       child: TextField(
         controller: widget.controller,
         maxLines: null,
-        style: const TextStyle(fontFamily: "monospace"),
+        style: TextStyle(fontFamily: useMonospace ? "monospace" : null),
         decoration: InputDecoration.collapsed(
           hintText: widget.hintText,
         ),
