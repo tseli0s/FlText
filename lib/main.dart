@@ -49,7 +49,7 @@ class FlText extends StatelessWidget {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       title: 'FlText',
       theme: ThemeData(
@@ -76,7 +76,7 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     super.initState();
     if (!kIsWeb) {
-      if (firstLaunch && Platform.isAndroid) {
+      if (firstLaunch && (Platform.isAndroid || Platform.isFuchsia)) {
         showErrorDialog(
           context,
           AppLocalizations.of(context)!.warning,
@@ -264,8 +264,8 @@ class _HomepageState extends State<Homepage> {
         title: AppLocalizations.of(context)!.filenameTitle,
       );
       if (result != null) {
-        final path = await getApplicationDocumentsDirectory();
-        filename = '${path.absolute.path}/$result';
+        final path = await getExternalStorageDirectory();
+        filename = '${path?.absolute.path}/Documents/$result';
         try {
           File(filename).createSync(recursive: false, exclusive: true);
         } catch (e) {
