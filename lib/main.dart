@@ -107,9 +107,17 @@ class _HomepageState extends State<Homepage> {
         ),
       ),
       drawer: Drawer(
+        elevation: 0.0,
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            DrawerHeader(
+              child: ListTile(
+                leading: Image.asset('assets/logo.png'),
+                title: TitleText(text: "FlText"),
+                subtitle: const Text("v0.1.0-pre"),
+              ),
+            ),
             ListTile(
               leading: const Icon(Icons.settings),
               title: Text(AppLocalizations.of(context)!.settings),
