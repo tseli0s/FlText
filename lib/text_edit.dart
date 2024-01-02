@@ -1,6 +1,6 @@
 /*
  * FlText: A simple and nice-looking text editor.
- * Copyright (C) 2023 Aggelos Tselios
+ * Copyright (C) 2023-2024 Aggelos Tselios
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-// ignore: must_be_immutable
 class TextEditor extends StatefulWidget {
   final TextEditingController textController = TextEditingController();
   final String? filename;
@@ -99,68 +98,56 @@ class TextEditorState extends State<TextEditor> {
 
     return Scaffold(
       body: b,
-      appBar: AppBar(
-        backgroundColor: Color(accentColor),
-        title: Text(AppLocalizations.of(context)!.editFile),
-        titleTextStyle: const TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () async {
-              final contents = widget.textController.text;
-              String? filename = widget.filename;
-              if (filename != null) {
-                final f = File(filename);
-                f.writeAsString(contents);
-                final snackBar = SnackBar(
-                  content: Text(AppLocalizations.of(context)!.saveSuccess),
-                  padding: const EdgeInsets.all(16.0),
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  action: SnackBarAction(
-                    label: AppLocalizations.of(context)!.close,
-                    onPressed: () {},
-                  ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              } else {
-                String? result = await FilePicker.platform.saveFile(
-                  dialogTitle: AppLocalizations.of(context)!.saveFileAt,
-                  lockParentWindow: true,
-                );
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.save_alt),
+        onPressed: () async {
+          final contents = widget.textController.text;
+          String? filename = widget.filename;
+          if (filename != null) {
+            final f = File(filename);
+            f.writeAsString(contents);
+            final snackBar = SnackBar(
+              content: Text(AppLocalizations.of(context)!.saveSuccess),
+              padding: const EdgeInsets.all(16.0),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              action: SnackBarAction(
+                label: AppLocalizations.of(context)!.close,
+                onPressed: () {},
+              ),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          } else {
+            String? result = await FilePicker.platform.saveFile(
+              dialogTitle: AppLocalizations.of(context)!.saveFileAt,
+              lockParentWindow: true,
+            );
 
-                if (result != null) {
-                  final f = File(result);
-                  f.writeAsString(contents);
-                  final snackBar = SnackBar(
-                    content: Text(AppLocalizations.of(context)!.saveSuccess),
-                    padding: const EdgeInsets.all(16.0),
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    action: SnackBarAction(
-                      label: AppLocalizations.of(context)!.close,
-                      onPressed: () {},
-                    ),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                } else {
-                  final title =
-                      AppLocalizations.of(context)!.operationCancelled;
-                  final message =
-                      AppLocalizations.of(context)!.noFileWasSelected;
-                  showErrorDialog(context, title, message);
-                }
-              }
-            },
-            icon: const Icon(Icons.save),
-          )
-        ],
+            if (result != null) {
+              final f = File(result);
+              f.writeAsString(contents);
+              final snackBar = SnackBar(
+                content: Text(AppLocalizations.of(context)!.saveSuccess),
+                padding: const EdgeInsets.all(16.0),
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                action: SnackBarAction(
+                  label: AppLocalizations.of(context)!.close,
+                  onPressed: () {},
+                ),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            } else {
+              final title = AppLocalizations.of(context)!.operationCancelled;
+              final message = AppLocalizations.of(context)!.noFileWasSelected;
+              showErrorDialog(context, title, message);
+            }
+          }
+        },
       ),
     );
   }

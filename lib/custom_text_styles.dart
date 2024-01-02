@@ -1,6 +1,6 @@
 /*
  * FlText: A simple and nice-looking text editor.
- * Copyright (C) 2023 Aggelos Tselios
+ * Copyright (C) 2023-2024 Aggelos Tselios
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

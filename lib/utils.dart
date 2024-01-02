@@ -1,6 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 /*
  * FlText: A simple and nice-looking text editor.
- * Copyright (C) 2023 Aggelos Tselios
+ * Copyright (C) 2023-2024 Aggelos Tselios
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,6 +14,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+final githubURL = Uri.parse("https://github.com/tseli0s/FlText");
 
 void showErrorDialog(BuildContext context, String title, String message) {
   showCupertinoModalPopup(
@@ -94,4 +99,68 @@ Future<bool> colorPickerDialog(BuildContext context) async {
     constraints:
         const BoxConstraints(minHeight: 460, minWidth: 300, maxWidth: 320),
   );
+}
+
+void showFltextAbout(BuildContext context) {
+  showAboutDialog(
+    applicationName: "FlText",
+    applicationVersion: "0.1.0",
+    applicationIcon: SizedBox.fromSize(
+      size: const Size.square(48),
+      child: const Image(
+        image: AssetImage('assets/logo.png'),
+      ),
+    ),
+    children: [
+      Text(AppLocalizations.of(context)!.fltextDesc),
+      TextButton(
+        onPressed: () async {
+          await openURL(context, githubURL);
+        },
+        child: Text(AppLocalizations.of(context)!.githubRepo),
+      )
+    ],
+    context: context,
+  );
+}
+
+Future<void> openURL(BuildContext context, Uri url) async {
+  /* 
+     * Like the documentation says, launchUrl may either throw an exception or return false on failure,
+     * depending on the error. Here we handle both so we never have to manually debug what went wrong.
+     */
+  try {
+    if (await launchUrl(url) != true) {
+      final title = AppLocalizations.of(context)!.unableToOpenURL;
+      final msg = AppLocalizations.of(context)!.anUnknownErrorOccured_URL;
+      showErrorDialog(context, title, msg);
+    }
+  } catch (e) {
+    final title = AppLocalizations.of(context)!.unableToOpenURL;
+    final msg = "Failed to load ${url.toString()}: ${e.toString()}";
+    showErrorDialog(context, title, msg);
+  }
+}
+
+void showLicense(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog.adaptive(
+          title: const Text('FlText License'),
+          content: const Text(
+              "This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>."),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: Text(AppLocalizations.of(context)!.close),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      });
 }
