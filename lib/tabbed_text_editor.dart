@@ -12,8 +12,10 @@
 
 import 'dart:io';
 
+import 'package:fltext/settings_screen.dart';
 import 'package:fltext/text_edit.dart';
 import 'package:fltext/utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:menu_bar/menu_bar.dart';
 
@@ -59,84 +61,86 @@ class TabbedTextEditorState extends State<TabbedTextEditor> {
       ),
     );
     */
-    return MenuBarWidget(
-      barButtons: [
-        BarButton(
-          text: const Text('File'),
-          submenu: SubMenu(
-            menuItems: [
-              MenuButton(
-                text: const Text('Save'),
-                onTap: () {},
-                icon: const Icon(Icons.save),
-                shortcutText: 'Ctrl+S',
-              ),
-              const MenuDivider(),
-              MenuButton(
-                text: const Text('Save as'),
-                onTap: () {},
-                icon: const Icon(Icons.save),
-                shortcutText: 'Ctrl+Shift+S',
-              ),
-              const MenuDivider(),
-              MenuButton(
-                text: const Text('Back to home'),
-                onTap: () {
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                },
-                icon: const Icon(Icons.exit_to_app),
-              ),
-              const MenuDivider(),
-              MenuButton(
-                text: const Text('Exit'),
-                onTap: () {
-                  exit(0);
-                },
-                icon: const Icon(Icons.exit_to_app),
-                shortcutText: 'Ctrl+Q',
-              ),
-            ],
+    return SafeArea(
+      child: MenuBarWidget(
+        barButtons: [
+          BarButton(
+            text: const Text('File'),
+            submenu: SubMenu(
+              menuItems: [
+                MenuButton(
+                  text: const Text('Save as'),
+                  onTap: () {},
+                  icon: const Icon(Icons.save),
+                  shortcutText: 'Ctrl+S',
+                ),
+                const MenuDivider(),
+                MenuButton(
+                  text: const Text('Back to home'),
+                  onTap: () {
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                  },
+                  icon: const Icon(Icons.exit_to_app),
+                ),
+                const MenuDivider(),
+                MenuButton(
+                  text: const Text('Exit'),
+                  onTap: () {
+                    exit(0);
+                  },
+                  icon: const Icon(Icons.exit_to_app),
+                  shortcutText: 'Ctrl+Q',
+                ),
+              ],
+            ),
           ),
-        ),
-        BarButton(
-          text: const Text('Edit'),
-          submenu: SubMenu(
-            menuItems: [
-              MenuButton(
-                text: const Text('Preferences...'),
-                onTap: () {},
-              ),
-            ],
+          BarButton(
+            text: const Text('Edit'),
+            submenu: SubMenu(
+              menuItems: [
+                MenuButton(
+                  text: const Text('Preferences...'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          title: "Preferences",
+                          builder: (ctx) {
+                            return const SettingsScreen();
+                          }),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
-        BarButton(
-          text: const Text('Help'),
-          submenu: SubMenu(
-            menuItems: [
-              MenuButton(
-                text: const Text('View License'),
-                onTap: () {
-                  showLicense(context);
-                },
-              ),
-              MenuButton(
-                text: const Text('About'),
-                onTap: () {
-                  showFltextAbout(context);
-                },
-                icon: const Icon(Icons.info),
-              ),
-            ],
+          BarButton(
+            text: const Text('Help'),
+            submenu: SubMenu(
+              menuItems: [
+                MenuButton(
+                  text: const Text('View License'),
+                  onTap: () {
+                    showLicense(context);
+                  },
+                ),
+                MenuButton(
+                  text: const Text('About'),
+                  onTap: () {
+                    showFltextAbout(context);
+                  },
+                  icon: const Icon(Icons.info),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
-
-      // Set the child, i.e. the application under the menu bar
-      child: DefaultTabController(
-        length: l,
-        child: Scaffold(
-          appBar: TabBar(tabs: tabs),
-          body: TabBarView(children: children),
+        ],
+        child: DefaultTabController(
+          length: l,
+          child: Scaffold(
+            appBar: TabBar(tabs: tabs),
+            body: TabBarView(children: children),
+          ),
         ),
       ),
     );
