@@ -100,55 +100,59 @@ class TextEditorState extends State<TextEditor> {
       body: b,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.save_alt),
-        onPressed: () async {
-          final contents = widget.textController.text;
-          String? filename = widget.filename;
-          if (filename != null) {
-            final f = File(filename);
-            f.writeAsString(contents);
-            final snackBar = SnackBar(
-              content: Text(AppLocalizations.of(context)!.saveSuccess),
-              padding: const EdgeInsets.all(16.0),
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              action: SnackBarAction(
-                label: AppLocalizations.of(context)!.close,
-                onPressed: () {},
-              ),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          } else {
-            String? result = await FilePicker.platform.saveFile(
-              dialogTitle: AppLocalizations.of(context)!.saveFileAt,
-              lockParentWindow: true,
-            );
-
-            if (result != null) {
-              final f = File(result);
-              f.writeAsString(contents);
-              final snackBar = SnackBar(
-                content: Text(AppLocalizations.of(context)!.saveSuccess),
-                padding: const EdgeInsets.all(16.0),
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                action: SnackBarAction(
-                  label: AppLocalizations.of(context)!.close,
-                  onPressed: () {},
-                ),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            } else {
-              final title = AppLocalizations.of(context)!.operationCancelled;
-              final message = AppLocalizations.of(context)!.noFileWasSelected;
-              showErrorDialog(context, title, message);
-            }
-          }
+        onPressed: () {
+          saveFile();
         },
       ),
     );
+  }
+
+  void saveFile() async {
+    final contents = widget.textController.text;
+    String? filename = widget.filename;
+    if (filename != null) {
+      final f = File(filename);
+      f.writeAsString(contents);
+      final snackBar = SnackBar(
+        content: Text(AppLocalizations.of(context)!.saveSuccess),
+        padding: const EdgeInsets.all(16.0),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        action: SnackBarAction(
+          label: AppLocalizations.of(context)!.close,
+          onPressed: () {},
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      String? result = await FilePicker.platform.saveFile(
+        dialogTitle: AppLocalizations.of(context)!.saveFileAt,
+        lockParentWindow: true,
+      );
+
+      if (result != null) {
+        final f = File(result);
+        f.writeAsString(contents);
+        final snackBar = SnackBar(
+          content: Text(AppLocalizations.of(context)!.saveSuccess),
+          padding: const EdgeInsets.all(16.0),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          action: SnackBarAction(
+            label: AppLocalizations.of(context)!.close,
+            onPressed: () {},
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
+        final title = AppLocalizations.of(context)!.operationCancelled;
+        final message = AppLocalizations.of(context)!.noFileWasSelected;
+        showErrorDialog(context, title, message);
+      }
+    }
   }
 }
